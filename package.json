@@ -1,0 +1,28 @@
+{
+  "name": "livesey-routing",
+  "version": "1.0.2",
+  "description": "a simple router writed on nodejs",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [
+    "routing",
+    "router",
+    "nodejs",
+    "javascript"
+  ],
+  "scripts": {
+    "lint": "npx eslint . --fix "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/livesey-finance/livsey-finance-library.git"
+  },
+  "author": "hhuziuk",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3"
+  }
+}
