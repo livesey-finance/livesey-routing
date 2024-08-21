@@ -22,14 +22,14 @@ This module is a lightweight HTTP router that facilitates handling requests and 
 You can install the module via npm:
 
 ```bash
-npm install custom-http-router
+npm install livesey-routing
 ```
 
 ## Usage
 To use the module in your project:
 ```js
 import http from 'http';
-import { Router, RouteBuilder } from 'custom-http-router';
+import { Router, RouteBuilder } from 'livesey-routing';
 
 const routeBuilder = new RouteBuilder();
 
@@ -60,7 +60,7 @@ routeBuilder
 The `Request` class provides methods to handle and parse incoming HTTP requests.
 
 ```js
-import { Request } from 'custom-http-router';
+import { Request } from 'livesey-routing';
 
 const request = new Request(req);
 
@@ -77,7 +77,7 @@ const body = await request.getBody();
 The `Response` class simplifies sending responses to the client.
 
 ```js
-import { Response } from 'custom-http-router';
+import { Response } from 'livesey-routing';
 
 const response = new Response(res);
 
@@ -96,7 +96,7 @@ response.status(404).send('Not Found');
 Routing allows you to define custom routes and their associated handlers.
 
 ```js
-import { RouteBuilder } from 'custom-http-router';
+import { RouteBuilder } from 'livesey-routing';
 
 const routeBuilder = new RouteBuilder();
 
