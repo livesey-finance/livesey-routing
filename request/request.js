@@ -6,34 +6,31 @@ export class Request {
       this.url = new URL(req.url, `http://${req.headers.host}`);
       this.method = req.method;
       this.params = {};
-      this.body = this.parseBody();
-      // cookies
+      this.body = null; 
     }
   
     async parseBody() {
-      return new Promise((resolve, reject) => {
-        let body = '';
-        this.req.on('data', chunk => {
-          body += chunk.toString();
-        });
-        this.req.on('end', () => {
-          try {
-            resolve(JSON.parse(body));
-          } catch {
-            resolve(body);
-          }
-        });
-        this.req.on('error', err => {
-          reject(err);
-        });
-      });
+      let body = '';
+    
+      for await (const chunk of this.req) {
+        body += chunk.toString();
+      }
+
+      try {
+        return JSON.parse(body);
+      } catch {
+        return body;
+      }
     }
   
     getParams() {
       return this.url.searchParams;
     }
   
-    getBody() {
+    async getBody() {
+      if (this.body === null) {
+        this.body = await this.parseBody();
+      }
       return this.body;
     }
   
