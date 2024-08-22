@@ -31,9 +31,7 @@ To use the module in your project:
 import http from 'http';
 import { Router, RouteBuilder } from 'livesey-routing';
 
-const routeBuilder = new RouteBuilder();
-
-routeBuilder
+const router = new RouteBuilder()
   .get('/hello/:name', (req, res) => {
     const name = req.params.name;
     res.json({ message: `Hello, ${name}!` });
@@ -48,6 +46,8 @@ routeBuilder
   const server = http.createServer((req, res) => {
     router.handleRequest(req, res);
   });
+
+  const port = 3000;
   server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
   });
@@ -64,8 +64,8 @@ import { Request } from 'livesey-routing';
 
 const request = new Request(req);
 
-// Access query parameters
-const params = request.getParams();
+// Access URL parameters
+const params = request.params;
 
 // Access request body
 const body = await request.getBody();
@@ -93,14 +93,12 @@ response.status(404).send('Not Found');
 
 ### Routing
 
-Routing allows you to define custom routes and their associated handlers.
+Routing allows you to define custom routes and their associated handlers using the `RouteBuilder` class.
 
 ```js
 import { RouteBuilder } from 'livesey-routing';
 
-const routeBuilder = new RouteBuilder();
-
-routeBuilder
+const router = new RouteBuilder()
   .get('/user/:id', (req, res) => {
     const userId = req.params.id;
     res.json({ userId });
@@ -108,8 +106,34 @@ routeBuilder
   .post('/submit', async (req, res) => {
     const data = await req.getBody();
     res.json({ received: data });
-  });
+  })
   .build();
+```
+
+### Middleware and Nested Routers
+
+You can use middleware and nested routers to structure your application routes more effectively.
+
+```js
+import { Router, RouteBuilder } from 'livesey-routing';
+
+const apiRouter = new RouteBuilder()
+  .get('/search/:query', (req, res) => {
+    const query = req.params.query;
+    res.json({ query });
+  })
+  .build();
+
+const appRouter = Router.use('/api', apiRouter);
+
+const server = http.createServer((req, res) => {
+  appRouter.handleRequest(req, res);
+});
+
+const port = 3000;
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
 ```
 
 ## Contributing
