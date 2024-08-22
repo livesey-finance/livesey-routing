@@ -61,23 +61,41 @@ export class RouteBuilder {
     }
   
     build() {
-      return new Router(this.routes);
-    }
+      return new Router('', this.routes);
+  }
 }
   
 export class Router {
-    constructor(routes) {
-      this.routes = routes;
+    constructor(middlewarePath, routes) {
+      this.middlewarePath = middlewarePath;
+      this.routes = routes || new Map();
+      this.middleware = new Map(); // Key: Path, Value: Router instance
+    }
+
+    static use (basePath, router) {
+      const newRouter = new Router(basePath);
+      newRouter.middleware.set(basePath, router);
+      return newRouter;
     }
   
     handleRequest(req, res) {
       const request = new Request(req);
       const response = new Response(res);
-  
+
+      for (const [basePath, router] of this.middleware) {
+        const fullPath = `${basePath}`;
+
+        if (req.url.startsWith(fullPath)) {
+          req.url = req.url.slice(fullPath.length) || '/';
+          router.handleRequest(req, res);
+          return;
+        }
+      }
+
       for (const route of this.routes.values()) {
         if (route.match(req)) {
-          req.routePath = route.path;
-          request.params = request.extractParams(req.routePath); 
+          req.routePath = `${this.middlewarePath}${route.path}`;
+          request.params = route.extractParams(new URL(req.url, `http://${req.headers.host}`));
           route.handler(request, response);
           return;
         }
