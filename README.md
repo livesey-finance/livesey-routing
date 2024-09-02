@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 # livesey-routing
 
-This module is a lightweight HTTP router that facilitates handling requests and responses in a Node.js application. It offers tools to manage HTTP methods, URL parameters, request bodies, and custom routes.
+`livesey-routing` is a lightweight HTTP router for Node.js that simplifies handling requests and responses. It provides tools to manage HTTP methods, URL parameters, request bodies, and custom routes.
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -26,7 +26,9 @@ npm install livesey-routing
 ```
 
 ## Usage
+
 To use the module in your project:
+
 ```js
 import http from 'http';
 import { Router, RouteBuilder } from 'livesey-routing';
@@ -37,7 +39,7 @@ const router = new RouteBuilder()
     res.json({ message: `Hello, ${name}!` });
   })
   .post('/data', async (req, res) => {
-    const data = await req.getBody();
+    const data = await req.parseBody();
     res.json({ received: data });
   })
   .build();
@@ -55,20 +57,24 @@ const router = new RouteBuilder()
 ```
 
 ## Features
+
 ### Request Class
 
-The `Request` class provides methods to handle and parse incoming HTTP requests.
+The `Request` class provides methods to handle and parse incoming HTTP requests, including access to URL parameters, headers, and the request body.
 
 ```js
 import { Request } from 'livesey-routing';
 
 const request = new Request(req);
 
+// Access request method
+const method = request.method;
+
 // Access URL parameters
-const params = request.params;
+const params = request.extractParams('/hello/:name');
 
 // Access request body
-const body = await request.getBody();
+const body = await request.parseBody();
 ```
 
 
@@ -104,8 +110,16 @@ const router = new RouteBuilder()
     res.json({ userId });
   })
   .post('/submit', async (req, res) => {
-    const data = await req.getBody();
+    const data = await req.parseBody();
     res.json({ received: data });
+  })
+  .put('/update/:id', async (req, res) => {
+    const userId = req.params.id;
+    res.json({ message: `Updated user ${userId}` });
+  })
+  .delete('/delete/:id', (req, res) => {
+    const userId = req.params.id;
+    res.json({ message: `Deleted user ${userId}` });
   })
   .build();
 ```
