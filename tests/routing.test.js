@@ -37,10 +37,10 @@ const runTests = async () => {
 
   // Test Response class
   const mockRes = {
-    setHeader: function (key, value) {
+    setHeader(key, value) {
       this.headers[key] = value;
     },
-    end: function (data) {
+    end(data) {
       this.body = data;
     },
     statusCode: 200,
@@ -122,10 +122,10 @@ const runTests = async () => {
     mockServerReq.headers = { host: 'localhost' };
 
     const mockServerRes = {
-      setHeader: function (key, value) {
+      setHeader(key, value) {
         this.headers[key] = value;
       },
-      end: function (data) {
+      end(data) {
         this.body = data;
       },
       statusCode: 200,
@@ -149,10 +149,10 @@ const runTests = async () => {
   mock404Req.headers = { host: 'localhost' };
 
   const mock404Res = {
-    setHeader: function (key, value) {
+    setHeader(key, value) {
       this.headers[key] = value;
     },
-    end: function (data) {
+    end(data) {
       this.body = data;
     },
     statusCode: 200,

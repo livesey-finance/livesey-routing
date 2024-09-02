@@ -36,7 +36,8 @@ export class Router {
 
     for (const [basePath, router] of this.middleware) {
       if (request.url.startsWith(basePath)) {
-        request.url = request.url.slice(basePath.length) || '/';
+        const modifiedUrl = request.url.slice(basePath.length) || '/';
+        request.req.url = modifiedUrl;
         router.handleRequest(request.req, res);
         return;
       }
