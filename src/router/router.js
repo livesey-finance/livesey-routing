@@ -1,4 +1,3 @@
-import { URL } from 'node:url';
 import { Request } from '../request/request.js';
 import { Response } from '../response/response.js';
 
@@ -10,33 +9,19 @@ export class Route {
   }
 
   match(req) {
-    const { method, url } = req;
-    const pathname = new URL(url, `http://${req.headers.host}`).pathname;
-    const pathRegex = new RegExp(`^${this.path.replace(/:\w+/g, '(\\w+)')}$`);
-    return this.method === method && pathRegex.test(pathname);
+    return this.method === req.method && new RegExp(`^${this.path.replace(/:\w+/g, '(\\w+)')}$`).test(req.path);
   }
 
-  extractParams(url) {
-    const params = {};
-    const pathRegex = new RegExp(`^${this.path.replace(/:\w+/g, '(\\w+)')}$`);
-    const match = url.pathname.match(pathRegex);
-
-    if (match) {
-      const keys = this.path.split('/').filter((part) => part.startsWith(':')).map((part) => part.slice(1));
-      keys.forEach((key, index) => {
-        params[key] = match[index + 1];
-      });
-    }
-
-    return params;
+  extractParams(req) {
+    return req.extractParams(this.path);
   }
 }
 
 export class Router {
-  constructor(middlewarePath, routes) {
+  constructor(middlewarePath = '', routes = new Map()) {
     this.middlewarePath = middlewarePath;
-    this.routes = routes || new Map();
-    this.middleware = new Map(); // Key: Path, Value: Router instance
+    this.routes = routes;
+    this.middleware = new Map();
   }
 
   static use(basePath, router) {
@@ -50,19 +35,16 @@ export class Router {
     const response = new Response(res);
 
     for (const [basePath, router] of this.middleware) {
-      const fullPath = `${basePath}`;
-
-      if (req.url.startsWith(fullPath)) {
-        req.url = req.url.slice(fullPath.length) || '/';
-        router.handleRequest(req, res);
+      if (request.url.startsWith(basePath)) {
+        request.url = request.url.slice(basePath.length) || '/';
+        router.handleRequest(request.req, res);
         return;
       }
     }
 
     for (const route of this.routes.values()) {
-      if (route.match(req)) {
-        req.routePath = `${this.middlewarePath}${route.path}`;
-        request.params = route.extractParams(new URL(req.url, `http://${req.headers.host}`));
+      if (route.match(request)) {
+        request.params = route.extractParams(request);
         route.handler(request, response);
         return;
       }
@@ -73,7 +55,6 @@ export class Router {
   }
 }
 
-
 export class RouteBuilder {
   constructor() {
     this.routes = new Map();
@@ -81,8 +62,7 @@ export class RouteBuilder {
 
   addRoute(method, path, handler) {
     const route = new Route(method, path, handler);
-    const key = `${method.toUpperCase()} ${path}`;
-    this.routes.set(key, route);
+    this.routes.set(`${method.toUpperCase()} ${path}`, route);
     return this;
   }
 

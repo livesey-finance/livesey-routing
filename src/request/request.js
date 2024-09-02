@@ -1,12 +1,34 @@
+import { IncomingMessage } from 'node:http';
 import { URL } from 'node:url';
 
 export class Request {
   constructor(req) {
+    if (!(req instanceof IncomingMessage)) {
+      throw new Error('Request must be an instance of IncomingMessage');
+    }
+
     this.req = req;
-    this.url = new URL(req.url, `http://${req.headers.host}`);
-    this.method = req.method;
-    this.params = {};
-    this.body = null;
+    this.urlObj = new URL(req.url, `http://${req.headers.host}`);
+  }
+
+  get method() {
+    return this.req.method;
+  }
+
+  get url() {
+    return this.req.url;
+  }
+
+  get header() {
+    return this.req.headers[name.toLowerCase()];
+  }
+
+  get headers() {
+    return this.req.headers;
+  }
+
+  get path() {
+    return this.urlObj.pathname;
   }
 
   async parseBody() {
@@ -23,20 +45,9 @@ export class Request {
     }
   }
 
-  getParams() {
-    return this.url.searchParams;
-  }
-
-  async getBody() {
-    if (this.body === null) {
-      this.body = await this.parseBody();
-    }
-    return this.body;
-  }
-
   extractParams(routePath) {
     const params = {};
-    const urlPath = this.url.pathname;
+    const urlPath = this.urlObj.pathname;
     const routeParts = routePath.split('/').filter(Boolean);
     const urlParts = urlPath.split('/').filter(Boolean);
 
