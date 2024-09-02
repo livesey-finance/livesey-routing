@@ -11,18 +11,16 @@
     "javascript"
   ],
   "scripts": {
-    "lint": "npx eslint . --fix "
+    "start": "npx eslint . --fix && node index.js",
+    "test": "node --test tests/*.test.js "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/livesey-finance/livesey-routing.git"
+    "url": "git+https://github.com/livesey-finance/livesey-database"
   },
   "author": "hhuziuk",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.3.3"
+    "eslint": "^9.9.1"
   }
 }
