@@ -1,7 +1,7 @@
 const { Request } = require('../request/request.js');
 const { Response } = require('../response/response.js');
 
-export class Route {
+class Route {
   constructor(method, path, handler) {
     this.method = method.toUpperCase();
     this.path = path;
@@ -20,7 +20,7 @@ export class Route {
   }
 }
 
-export class Router {
+class Router {
   constructor(middlewarePath = '', routes = new Map()) {
     this.middlewarePath = middlewarePath;
     this.routes = routes;
@@ -59,7 +59,7 @@ export class Router {
   }
 }
 
-export class RouteBuilder {
+class RouteBuilder {
   constructor() {
     this.routes = new Map();
   }
@@ -90,3 +90,9 @@ export class RouteBuilder {
     return new Router('', this.routes);
   }
 }
+
+module.exports = {
+  Route,
+  Router,
+  RouteBuilder
+};

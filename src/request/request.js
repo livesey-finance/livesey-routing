@@ -1,7 +1,7 @@
 const { IncomingMessage } = require('node:http');
 const { URL } = require('node:url');
 
-export class Request {
+class Request {
   constructor(req) {
     if (!(req instanceof IncomingMessage)) {
       throw new Error('Request must be an instance of IncomingMessage');
@@ -61,3 +61,7 @@ export class Request {
     return params;
   }
 }
+
+module.exports = {
+  Request
+};

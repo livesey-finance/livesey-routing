@@ -1,8 +1,8 @@
-import { strict as assert } from 'node:assert';
-import http from 'node:http';
-import { Request } from '../src/request/request.js';
-import { Response } from '../src/response/response.js';
-import { RouteBuilder } from '../src/router/router.js';
+const assert = require('node:assert').strict;
+const http = require('node:http');
+const { Request } = require('../src/request/request.js');
+const { Response } = require('../src/response/response.js');
+const { RouteBuilder } = require('../src/router/router.js');
 
 const runTests = async () => {
   // Test Request class

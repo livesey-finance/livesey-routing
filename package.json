@@ -1,10 +1,9 @@
 {
   "name": "livesey-routing",
   "version": "1.0.5",
-  "description": "a simple router wrote on nodejs",
-  "main": "index.js",
+  "description": "A simple router written in Node.js",
+  "main": "index.cjs",
   "module": "wrapper.mjs",
-  "type": "module",
   "exports": {
     ".": {
       "require": "./index.js",
@@ -13,12 +12,12 @@
   },
   "keywords": ["routing", "router", "nodejs", "javascript"],
   "scripts": {
-    "start": "npx biome format . --write && node index.js",
+    "lint": "npx biome format . --write",
     "test": "node --test tests/*.test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/livesey-finance/livesey-database"
+    "url": "https://github.com/livesey-finance/livesey-database"
   },
   "author": "hhuziuk",
   "license": "MIT",
