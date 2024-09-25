@@ -9,7 +9,10 @@ export class Route {
   }
 
   match(req) {
-    return this.method === req.method && new RegExp(`^${this.path.replace(/:\w+/g, '(\\w+)')}$`).test(req.path);
+    return (
+      this.method === req.method &&
+      new RegExp(`^${this.path.replace(/:\w+/g, '(\\w+)')}$`).test(req.path)
+    );
   }
 
   extractParams(req) {

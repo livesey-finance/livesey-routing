@@ -1,17 +1,12 @@
 {
   "name": "livesey-routing",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a simple router writed on nodejs",
   "main": "index.js",
   "type": "module",
-  "keywords": [
-    "routing",
-    "router",
-    "nodejs",
-    "javascript"
-  ],
+  "keywords": ["routing", "router", "nodejs", "javascript"],
   "scripts": {
-    "start": "npx eslint . --fix && node index.js",
+    "start": "npx biome format . --write && node index.js",
     "test": "node --test tests/*.test.js"
   },
   "repository": {
@@ -21,6 +16,6 @@
   "author": "hhuziuk",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^9.9.1"
+    "@biomejs/biome": "1.9.2"
   }
 }

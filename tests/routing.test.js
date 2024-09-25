@@ -45,7 +45,7 @@ const runTests = async () => {
     },
     statusCode: 200,
     headers: {},
-    body: null,
+    body: null
   };
 
   const response = new Response(mockRes);
@@ -90,29 +90,33 @@ const runTests = async () => {
       url: '/test/123',
       expectedStatusCode: 200,
       expectedBody: JSON.stringify({ id: '123' }),
-      expectedContentType: 'application/json',
+      expectedContentType: 'application/json'
     },
     {
       method: 'POST',
       url: '/test',
       expectedStatusCode: 200,
       expectedBody: JSON.stringify({ message: 'Post request received' }),
-      expectedContentType: 'application/json',
+      expectedContentType: 'application/json'
     },
     {
       method: 'PUT',
       url: '/test/123',
       expectedStatusCode: 200,
-      expectedBody: JSON.stringify({ message: 'Put request received for id 123' }),
-      expectedContentType: 'application/json',
+      expectedBody: JSON.stringify({
+        message: 'Put request received for id 123'
+      }),
+      expectedContentType: 'application/json'
     },
     {
       method: 'DELETE',
       url: '/test/123',
       expectedStatusCode: 200,
-      expectedBody: JSON.stringify({ message: 'Delete request received for id 123' }),
-      expectedContentType: 'application/json',
-    },
+      expectedBody: JSON.stringify({
+        message: 'Delete request received for id 123'
+      }),
+      expectedContentType: 'application/json'
+    }
   ];
 
   for (const testCase of testCases) {
@@ -130,7 +134,7 @@ const runTests = async () => {
       },
       statusCode: 200,
       headers: {},
-      body: null,
+      body: null
     };
 
     // Simulate handling the request
@@ -138,7 +142,10 @@ const runTests = async () => {
 
     assert.strictEqual(mockServerRes.statusCode, testCase.expectedStatusCode);
     assert.strictEqual(mockServerRes.body, testCase.expectedBody);
-    assert.strictEqual(mockServerRes.headers['Content-Type'], testCase.expectedContentType);
+    assert.strictEqual(
+      mockServerRes.headers['Content-Type'],
+      testCase.expectedContentType
+    );
     console.log(`✔️ Router ${testCase.method} request handling test passed.`);
   }
 
@@ -157,7 +164,7 @@ const runTests = async () => {
     },
     statusCode: 200,
     headers: {},
-    body: null,
+    body: null
   };
 
   router.handleRequest(mock404Req, mock404Res);
