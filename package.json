@@ -1,6 +1,6 @@
 {
   "name": "livesey-routing",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple router written in Node.js",
   "main": "index.cjs",
   "module": "wrapper.mjs",

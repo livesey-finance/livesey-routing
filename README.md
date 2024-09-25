@@ -26,12 +26,42 @@ npm install livesey-routing
 ```
 
 ## Usage
+Module supports both `ECMAScript` and `CommonJS`:
 
-To use the module in your project:
+To use the module in your project(**ESM**):
 
 ```js
-import http from 'http';
+import http from 'node:http';
 import { Router, RouteBuilder } from 'livesey-routing';
+
+const router = new RouteBuilder()
+  .get('/hello/:name', (req, res) => {
+    const name = req.params.name;
+    res.json({ message: `Hello, ${name}!` });
+  })
+  .post('/data', async (req, res) => {
+    const data = await req.parseBody();
+    res.json({ received: data });
+  })
+  .build();
+
+(async () => {
+  const server = http.createServer((req, res) => {
+    router.handleRequest(req, res);
+  });
+
+  const port = 3000;
+  server.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+  });
+})();
+```
+
+To use the module in your project(**CJS**):
+
+```js
+const http = require('node:http');
+const { Router, RouteBuilder } = require('livesey-routing');
 
 const router = new RouteBuilder()
   .get('/hello/:name', (req, res) => {
