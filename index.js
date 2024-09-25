@@ -1,5 +1,5 @@
-import { Request } from './src/request/request.js';
-import { Response } from './src/response/response.js';
-import { RouteBuilder, Router, Route } from './src/router/router.js';
+const { Request } = require('./src/request/request.js');
+const { Response } = require('./src/response/response.js');
+const { RouteBuilder, Router, Route } = require('./src/router/router.js');
 
-export { Request, Response, RouteBuilder, Router, Route };
+module.exports = { Request, Response, RouteBuilder, Router, Route };

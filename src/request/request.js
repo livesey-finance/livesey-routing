@@ -1,5 +1,5 @@
-import { IncomingMessage } from 'node:http';
-import { URL } from 'node:url';
+const { IncomingMessage } = require('node:http');
+const { URL } = require('node:url');
 
 export class Request {
   constructor(req) {

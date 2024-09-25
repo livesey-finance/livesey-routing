@@ -1,5 +1,5 @@
-import { Request } from '../request/request.js';
-import { Response } from '../response/response.js';
+const { Request } = require('../request/request.js');
+const { Response } = require('../response/response.js');
 
 export class Route {
   constructor(method, path, handler) {

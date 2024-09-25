@@ -1,9 +1,16 @@
 {
   "name": "livesey-routing",
   "version": "1.0.5",
-  "description": "a simple router writed on nodejs",
+  "description": "a simple router wrote on nodejs",
   "main": "index.js",
+  "module": "wrapper.mjs",
   "type": "module",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./wrapper.mjs"
+    }
+  },
   "keywords": ["routing", "router", "nodejs", "javascript"],
   "scripts": {
     "start": "npx biome format . --write && node index.js",
